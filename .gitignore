@@ -1,0 +1,6 @@
+instance/
+*.pyc
+__pycache__/
+static/uploads/*
+!static/uploads/padrao.png
+.venv/
