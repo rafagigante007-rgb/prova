@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+    <h2>Lista de Produtos</h2>
+    <form class="d-flex" method="GET" action="{{ url_for('index') }}">
+        <input class="form-control me-2" type="search" name="busca" placeholder="Buscar por nome..." value="{{ busca }}">
+        <button class="btn btn-outline-success" type="submit">Buscar</button>
+    </form>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Foto</th>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Preço</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in produtos %}
+        <tr>
+            <td>
+                <img src="{{ url_for('static', filename='uploads/' + p.imagem) }}" width="50" height="50" class="img-thumbnail" alt="{{ p.nome }}">
+            </td>
+            <td>{{ p.id }}</td>
+            <td>{{ p.nome }}</td>
+            <td>{{ p.categoria.nome }}</td>
+            <td>R$ {{ "%.2f"|format(p.preco) }}</td>
+            <td>
+                <a href="{{ url_for('editar', id=p.id) }}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{{ url_for('excluir', id=p.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">Excluir</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6" class="text-center">Nenhum produto encontrado.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
